@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 
 SAMPLES = heap/heap_exploration heap/kth_largest heap/last_stone heap/weakest_row \
-	heap/kth_smallest_sorted_matrix heap/k_closest_points
+	heap/kth_smallest_sorted_matrix heap/k_closest_points heap/meeting_rooms_ii
 
 all: $(SAMPLES)
 
@@ -29,6 +29,10 @@ kth_smallest_sorted_matrix:
 # Target for k_closest_points
 k_closest_points:
 	$(CXX) $(CXXFLAGS) k_closest_points.cc -o k_closest_points
+
+# Target for meeting_room
+meeting_room_ii:
+	$(CXX) $(CXXFLAGS) meeting_rooms_ii.cc -o meeting_rooms_ii
 
 # Clean build artifacts
 clean:
