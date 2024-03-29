@@ -1,7 +1,8 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 
-SAMPLES = heap/heap_exploration heap/kth_largest heap/last_stone heap/weakest_row
+SAMPLES = heap/heap_exploration heap/kth_largest heap/last_stone heap/weakest_row \
+	heap/kth_smallest_sorted_matrix
 
 all: $(SAMPLES)
 
@@ -20,6 +21,10 @@ last_stone:
 # Target for weakest_row
 weakest_row:
 	$(CXX) $(CXXFLAGS) weakest_row.cc -o weakest_row
+
+# Target for kth_smallest_sorted_matrix
+kth_smallest_sorted_matrix:
+	$(CXX) $(CXXFLAGS) kth_smallest_sorted_matrix.cc -o kth_smallest_sorted_matrix
 
 # Clean build artifacts
 clean:
