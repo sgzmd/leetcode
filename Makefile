@@ -26,6 +26,10 @@ weakest_row:
 kth_smallest_sorted_matrix:
 	$(CXX) $(CXXFLAGS) kth_smallest_sorted_matrix.cc -o kth_smallest_sorted_matrix
 
+# Target for k_closest_points
+k_closest_points:
+	$(CXX) $(CXXFLAGS) k_closest_points.cc -o k_closest_points
+
 # Clean build artifacts
 clean:
 	rm -f $(SAMPLES)
