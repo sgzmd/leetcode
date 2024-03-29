@@ -29,7 +29,7 @@ class Solution {
 
    public:
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
-        for (auto i = 0; i < mat.size(); ++i) {
+        for (size_t i = 0; i < mat.size(); ++i) {
             pair<int, int> row = {count_soldiers(mat[i]), i};
             mh.push(row);
         }
