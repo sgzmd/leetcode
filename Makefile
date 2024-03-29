@@ -2,8 +2,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 
 SAMPLES = heap/heap_exploration heap/kth_largest heap/last_stone heap/weakest_row \
-	heap/kth_smallest_sorted_matrix heap/k_closest_points heap/meeting_rooms_ii \
-	heap/sticks
+	heap/kth_smallest_sorted_matrix heap/k_closest_points heap/meeting_rooms_ii
 
 all: $(SAMPLES)
 
