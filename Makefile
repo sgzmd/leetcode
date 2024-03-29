@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 
-SAMPLES = heap/heap_exploration heap/kth_largest heap/last_stone
+SAMPLES = heap/heap_exploration heap/kth_largest heap/last_stone heap/weakest_row
 
 all: $(SAMPLES)
 
@@ -16,6 +16,10 @@ kth_largest:
 # Target for last_stone
 last_stone:
 	$(CXX) $(CXXFLAGS) last_stone.cc -o last_stone
+
+# Target for weakest_row
+weakest_row:
+	$(CXX) $(CXXFLAGS) weakest_row.cc -o weakest_row
 
 # Clean build artifacts
 clean:
