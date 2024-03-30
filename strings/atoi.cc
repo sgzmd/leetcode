@@ -4,45 +4,95 @@
 #include <string>
 
 class Solution {
+private:
+    enum Sign {
+        NONE,
+        NEG,
+        POS
+    };
 public:
     int myAtoi(std::string s) {
-        // Implementation goes here
-        return 0;
+
+        const int INT_MAX_DIVIDED_BY_10 = INT_MAX / 10;
+        const int INT_MIN_DIVIDED_BY_10 = INT_MIN / 10;
+
+        size_t i = 0;
+        for (; i < s.size() && s[i] == ' '; ++i);
+        Sign sign = NONE;
+        int result = 0;
+        for ( ; i < s.size(); ++i) {
+            auto c = s[i];
+            if (c == '+') {
+                if (sign == NONE) {
+                    sign = POS;
+                } else {
+                    return 0;
+                }
+                // do nothing
+            } else if (c == '-' ){
+                if (sign == NONE) {
+                    sign = NEG;
+                } else {
+                    return 0;
+                }
+            } else if (isdigit(c)) {
+                int digit = c - '0';
+                if (sign == NEG) {
+                    if (result <= INT_MIN_DIVIDED_BY_10) {
+                        return INT_MIN;
+                    } else if (digit >= result * 10 - INT_MIN) {
+                        return INT_MIN;
+                    }
+                    result = result * 10 - digit;
+                } else {
+                    if (sign == NONE) {
+                        sign = POS;
+                    }
+                    if (result > INT_MAX_DIVIDED_BY_10) {
+                        return INT_MAX;
+                    } else if (digit >= INT_MAX - result * 10) {
+                        return INT_MAX;
+                    }
+                    result = result * 10 + digit;
+                }
+            } else {
+                return result;
+            }
+        }
+
+        return result;
     }
 };
+
+void checkResult(const std::string& testName, int expected, int actual) {
+    if (expected != actual) {
+        std::cerr << "Test '" << testName << "' FAILED. Expected: " << expected << ", Actual: " << actual << std::endl;
+    } else {
+        std::cout << "Test '" << testName << "' passed." << std::endl;
+    }
+}
 
 void testMyAtoi() {
     Solution solution;
 
-    // Test with leading whitespace
-    assert(solution.myAtoi("   42") == 42);
-
-    // Test with negative number
-    assert(solution.myAtoi("   -42") == -42);
-
-    // Test with positive sign
-    assert(solution.myAtoi("+42") == 42);
-
-    // Test with non-digit characters after the number
-    assert(solution.myAtoi("4193 with words") == 4193);
-    assert(solution.myAtoi("42abc") == 42);
-
-    // Test with digits after non-digit characters (should ignore these characters and consider it as 0)
-    assert(solution.myAtoi("words and 987") == 0);
-
-    // Test clamping to 32-bit signed integer limits
-    assert(solution.myAtoi("-91283472332") == INT_MIN); // Should clamp to INT_MIN
-    assert(solution.myAtoi("91283472332") == INT_MAX); // Should clamp to INT_MAX
-
-    // Edge cases
-    assert(solution.myAtoi("") == 0); // Empty string
-    assert(solution.myAtoi("+") == 0); // Just a plus sign
-    assert(solution.myAtoi("-") == 0); // Just a minus sign
-    assert(solution.myAtoi("    ") == 0); // Only whitespace
-    assert(solution.myAtoi("+0") == 0); // Zero with plus sign
-    assert(solution.myAtoi("-0") == 0); // Zero with minus sign
-
-    std::cout << "All tests passed successfully." << std::endl;
+    // Now using checkResult instead of assert
+    checkResult("Near INT_MAX boundary", 2147483646, solution.myAtoi("2147483646"));
+    checkResult("Clamp to INT_MAX on boundary", INT_MAX, solution.myAtoi("2147483648"));
+    checkResult("Leading '+' and '-'", 0, solution.myAtoi("+-12"));
+    checkResult("Leading whitespace", 42, solution.myAtoi("   42"));
+    checkResult("Negative number", -42, solution.myAtoi("   -42"));
+    checkResult("Positive sign", 42, solution.myAtoi("+42"));
+    checkResult("Non-digit characters after number", 4193, solution.myAtoi("4193 with words"));
+    checkResult("Non-digit characters after number 2", 42, solution.myAtoi("42abc"));
+    checkResult("Digits after non-digit characters", 0, solution.myAtoi("words and 987"));
+    checkResult("Clamp to INT_MIN", INT_MIN, solution.myAtoi("-91283472332"));
+    checkResult("Clamp to INT_MAX", INT_MAX, solution.myAtoi("91283472332"));
+    checkResult("Empty string", 0, solution.myAtoi(""));
+    checkResult("Just a plus sign", 0, solution.myAtoi("+"));
+    checkResult("Just a minus sign", 0, solution.myAtoi("-"));
+    checkResult("Only whitespace", 0, solution.myAtoi("    "));
+    checkResult("Zero with plus sign", 0, solution.myAtoi("+0"));
+    checkResult("Zero with minus sign", 0, solution.myAtoi("-0"));
 }
 
 int main() {
