@@ -5,3 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(longest_substring
         strings/longest_substring.cc)
+
+add_executable(atoi
+        strings/atoi.cc)
