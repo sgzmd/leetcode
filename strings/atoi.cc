@@ -20,27 +20,27 @@ public:
         for (; i < s.size() && s[i] == ' '; ++i);
         Sign sign = NONE;
         int result = 0;
-        for ( ; i < s.size(); ++i) {
+        for (; i < s.size(); ++i) {
             auto c = s[i];
             if (c == '+') {
                 if (sign == NONE) {
                     sign = POS;
                 } else {
-                    return 0;
+                    return result;
                 }
                 // do nothing
-            } else if (c == '-' ){
+            } else if (c == '-') {
                 if (sign == NONE) {
                     sign = NEG;
                 } else {
-                    return 0;
+                    return result;
                 }
             } else if (isdigit(c)) {
                 int digit = c - '0';
                 if (sign == NEG) {
-                    if (result <= INT_MIN_DIVIDED_BY_10) {
+                    if (result < INT_MIN_DIVIDED_BY_10) {
                         return INT_MIN;
-                    } else if (digit >= result * 10 - INT_MIN) {
+                    } else if (result == INT_MIN_DIVIDED_BY_10 && digit == 9) {
                         return INT_MIN;
                     }
                     result = result * 10 - digit;
@@ -64,7 +64,7 @@ public:
     }
 };
 
-void checkResult(const std::string& testName, int expected, int actual) {
+void checkResult(const std::string &testName, int expected, int actual) {
     if (expected != actual) {
         std::cerr << "Test '" << testName << "' FAILED. Expected: " << expected << ", Actual: " << actual << std::endl;
     } else {
@@ -87,6 +87,7 @@ void testMyAtoi() {
     checkResult("Digits after non-digit characters", 0, solution.myAtoi("words and 987"));
     checkResult("Clamp to INT_MIN", INT_MIN, solution.myAtoi("-91283472332"));
     checkResult("Clamp to INT_MAX", INT_MAX, solution.myAtoi("91283472332"));
+    checkResult("Near INT_MIN boundary", -2147483647, solution.myAtoi("-2147483647"));
     checkResult("Empty string", 0, solution.myAtoi(""));
     checkResult("Just a plus sign", 0, solution.myAtoi("+"));
     checkResult("Just a minus sign", 0, solution.myAtoi("-"));
