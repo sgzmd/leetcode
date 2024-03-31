@@ -8,3 +8,6 @@ add_executable(longest_substring
 
 add_executable(atoi
         strings/atoi.cc)
+
+add_executable(romans
+        strings/romans.cc)
