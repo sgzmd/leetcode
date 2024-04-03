@@ -11,3 +11,10 @@ add_executable(atoi
 
 add_executable(romans
         strings/romans.cc)
+
+add_executable(3sum
+        arrays/3sum.cc)
+
+add_executable(lru_cache
+        misc/lru_cache.cc
+        misc/lru_cache.cc)
