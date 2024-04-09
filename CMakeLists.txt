@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 project(leetcode)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 add_executable(longest_substring
         strings/longest_substring.cc)
@@ -21,3 +21,6 @@ add_executable(lru_cache
 
 add_executable(decoder
         dp/decoder.cc)       
+
+add_executable(bipart
+        graphs/bipart.cc)
