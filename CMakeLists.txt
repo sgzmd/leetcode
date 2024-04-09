@@ -24,3 +24,6 @@ add_executable(decoder
 
 add_executable(bipart
         graphs/bipart.cc)
+
+add_executable(subarray
+        dp/subarray.cc)
