@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <stack>
-#include <unordered_map>
 
 using namespace std;
 
@@ -13,49 +11,43 @@ public:
         RED = 1,
         BLUE = 2
     };
-    bool isBipartite(vector<vector<int>> &graph) {
-        vector<Color> colors(graph.size(), NONE);
-        vector<Color>::const_iterator it;
-        while ((it = std::find(colors.begin(), colors.end(), NONE)) != colors.end()) {
 
-        }
+    Color opposite(Color c) {
+        return (c == BLUE) ? RED : BLUE;
     }
 
-    bool _isBipartite(vector<vector<int>> &graph) {
-        const int NONE = 0;
-        const int RED = 1;
-        const int BLUE = 2;
+    bool isBipartite(vector<vector<int>> &graph) {
+        /*
+         * Taking elements from graph, and if it's not coloured, doing BFS from that element.
+         * If this is the first element, then we should reach all connected components from that element
+         * If it's not and it's coloured, we've already seen it
+         * If it's not and it's not coloured, we found a disconnected partition
+         */
+        vector<Color> colors(graph.size(), Color::NONE);
+        for (auto i = 0; i < graph.size(); ++i) {
+            cout << __LINE__ << ": " << "Processing graph element " << i << endl;
+            if (colors[i] == Color::NONE) {
+                // Let's BFS it.
+                queue<pair<size_t, Color>> q;
+                q.push({i, Color::BLUE});
 
-        vector<int> colors(graph.size(), 0);
+                while (!q.empty()) {
+                    auto [node, color] = q.front(); q.pop();
+                    colors[node] = color;
 
-        std::deque<pair<int, int>> deq;
-        deq.push_front({0, BLUE});
-
-        while (!deq.empty()) {
-            auto [n, c] = deq.front();
-            deq.pop_front();
-            auto color = colors[n];
-            if (color && color != c) {
-                return false;
-            } else {
-                auto nextc = c == BLUE ? RED : BLUE;
-                auto adj = graph[n];
-                for (auto nn: adj) {
-                    if (!colors[nn]) {
-                        deq.push_front({nn, nextc});
+                    auto notcolor = opposite(color);
+                    auto adj = graph[node];
+                    for (auto adjn : adj) {
+                        if (colors[adjn] == Color::NONE) {
+                            q.push({adjn, notcolor});
+                        } else if (colors[adjn] != notcolor) {
+                            return false;
+                        }
                     }
                 }
-                colors[n] = c;
             }
         }
 
-        for (int i = 0; i < colors.size(); ++i) {
-            if (!colors[i]) {
-                if (!graph[i].empty()) {
-                    return false;
-                }
-            }
-        }
         return true;
     }
 };
